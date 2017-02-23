@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link   href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready( function() {
+            $("#insert").click( function() {
+                var fullname=encodeURI($("#fullname").val());
+				var designation=$("#designation").val();
+                var password_hash=$("#password_hash").val();                
+                var dataString=
+                     "&fullname="+fullname
+					+"&designation="+designation
+                    +"&password_hash="+password_hash
+                    +"&insert=";     
+					
+					if(   $.trim(fullname).length>0 
+                    & $.trim(designation).length>0 
+                    & $.trim(password_hash).length>0) {
+                    $.ajax( {
+                        type: "POST",
+                        url: "http://csis.svsu.edu/~ikhan12/cis355_winter17/ImransOffice/employee_create.php",
+                        data: dataString,
+                        crossDomain: true,
+                        cache: false,
+                        beforeSend: function(){ $("#insert").val('Connecting...');},
+                        success: function(data){ location.href = "employee_list.html"; }
+						//success: function(data){}
+                    });
+                }
+                return false;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div style="margin-top: 5%; margin-bottom: 5%; margin-left: 3%; margin-right: 3%;">
+        <h3>Imran's Office: Add Employee</h3>
+        <p><a href="imr_office.html" class="btn btn-primary">Home</a></p>
+        <div class="control-group ">
+            <label class="control-label">Fullname</label>
+            <div class="controls">
+                <input id="fullname" type="text"  placeholder="fullname" value="" required>
+            </div>
+        </div>
+		<div class="control-group">
+            <label class="control-label">Designation</label>
+            <div class="controls">
+                <input id="designation" type="text"  placeholder="designation" value="" required>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label">Password_hash</label>
+            <div class="controls">
+                <input id="password_hash" type="password" placeholder="password_hash" value="" required>
+            </div>
+        </div>
+        <div class="form-actions">
+            <input type="button" id="insert" class="btn btn-success" value="Create"/>
+            <a class="btn" href="employee_list.html">Back</a>
+        </div>
+    </div>
+</body>
+</html>
